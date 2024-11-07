@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D E-commerce Store</title>
+    <style>
+        body { margin: 0; font-family: Arial, sans-serif; background-color: #f4f4f4; }
+        canvas { display: block; }
+        header { background-color: #333; color: white; padding: 10px; text-align: center; }
+        .container { display: flex; justify-content: space-around; margin: 20px 0; }
+        .product { width: 200px; height: 300px; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); text-align: center; }
+        .product img { width: 100%; border-radius: 10px; }
+        .product h2 { margin: 10px 0; font-size: 18px; }
+        .product p { color: #666; }
+        .product button { background-color: #44aa88; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; }
+        .product button:hover { background-color: #337a66; }
+        .form-container { max-width: 400px; margin: 20px auto; padding: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+        input, button { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; }
+        button { background-color: #44aa88; color: white; border: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Our 3D E-commerce Store</h1>
+    </header>
+
+    <div class="container">
+        <div class="product">
+            <img src="https://via.placeholder.com/200x200" alt="Product Image">
+            <h2>Product 1</h2>
+            <p>High-quality product description.</p>
+            <button>Add to Cart</button>
+        </div>
+        <div class="product">
+            <img src="https://via.placeholder.com/200x200" alt="Product Image">
+            <h2>Product 2</h2>
+            <p>High-quality product description.</p>
+            <button>Add to Cart</button>
+        </div>
+        <div class="product">
+            <img src="https://via.placeholder.com/200x200" alt="Product Image">
+            <h2>Product 3</h2>
+            <p>High-quality product description.</p>
+            <button>Add to Cart</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // 3D Scene Setup
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Load product model (using a 3D cube for now)
+        const geometry = new THREE.BoxGeometry(1, 1, 1);
+        const material = new THREE.MeshBasicMaterial({ color: 0x44aa88 });
+        const product = new THREE.Mesh(geometry, material);
+        scene.add(product);
+
+        camera.position.z = 5;
+
+        // Animation Loop to rotate product for demonstration
+        function animate() {
+            requestAnimationFrame(animate);
+            product.rotation.x += 0.01;
+            product.rotation.y += 0.01;
+            renderer.render(scene, camera);
+        }
+
+        animate();
+    </script>
+
+    <script>
+        // Initialize cart
+        let cart = [];
+
+        function addToCart(productName) {
+            cart.push(productName);
+            alert(`${productName} added to cart!`);
+            console.log('Cart:', cart);
+        }
+
+        // Update buttons to use the addToCart function
+        document.querySelectorAll('.product button').forEach(button => {
+            button.addEventListener('click', function() {
+                const productName = this.parentElement.querySelector('h2').innerText;
+                addToCart(productName);
+            });
+        });
+    </script>
+
+    <!-- Checkout Page (HTML Form) -->
+    <div class="form-container">
+        <h2>Checkout</h2>
+        <form action="#" method="POST">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="address">Shipping Address</label>
+            <input type="text" id="address" name="address" required>
+
+            <label for="payment">Payment Information</label>
+            <input type="text" id="payment" name="payment" required>
+
+            <button type="submit">Complete Purchase</button>
+        </form>
+    </div>
+
+</body>
+</html>
